@@ -7,6 +7,7 @@ const totalsDisplay =  document.getElementById("display")
 const addItemBtn =  document.getElementById("add-item")
 const taxInput = document.getElementById("tax-rate")
 const tipInput = document.getElementById("tip-rate")
+const itemsDash = document.getElementById("items-dashboard")
 
 
 class Member {
@@ -73,21 +74,29 @@ const memberClick = (name, buttonElement) => {
             if (member.name === name) {
                 member.split = !member.split
             }
-
         }
         
     )
+
     buttonElement.classList.toggle("highlight")
-    
-    const memberBtns = document.querySelectorAll('.member-btns')
-    const clickedBtn = document.getElementById(name)
 
-
- 
 }
 
 const addItem = () => {
-    const newItem = new Item 
+    let flagCounter = 0
+    memberList.forEach( 
+        (member) => {
+            if (member.split) { 
+                flagCounter++
+            }
+        })
+    
+    if (flagCounter === 0) {
+            alert("No members selected to split the bill!")
+            return
+        }      
+
+    const newItem = new Item() 
 
     newItem.name = itemName.value
     newItem.price = parseFloat(itemPrice.value)
@@ -95,20 +104,7 @@ const addItem = () => {
     itemList.push(newItem)
 
     const currentItemPrice = parseFloat(itemPrice.value)
-    let flagCounter = 0
-
-    memberList.forEach( 
-        (member) => {
-            if (member.split) { 
-                flagCounter++
-            }
-        })
-
-    if (flagCounter === 0) {
-        alert("No members selected to split the bill!")
-        return
-    }
-
+    
     const splitAmount = currentItemPrice / flagCounter
 
     memberList.forEach( 
@@ -120,9 +116,22 @@ const addItem = () => {
             }
         })
 
+
     calculateTotals()
     renderDisplay(memberList)
+    
 
+    const memberBtns = document.querySelectorAll(".member-btns")
+    memberBtns.forEach(
+        (btn) => {
+            if (btn.classList.contains("highlight")){
+                btn.classList.remove("highlight")
+            }
+            
+        } 
+    )
+
+    renderItemsDash(itemList)
 }
 
 const calculateTotals = () => {
@@ -137,11 +146,18 @@ const calculateTotals = () => {
 
         }
     )
-
 }
 
 
+const renderItemsDash = (array) => {
+    const itemsHTML = array.map(
+        (item) => {
+            return `<div><span>Item Name: ${item.name}</span><span>Price: ${item.price}</span></div>`
+        }
+    ).join("")
 
+    itemsDash.innerHTML = itemsHTML
+}
 
 
 

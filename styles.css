@@ -15,7 +15,7 @@ h1 {
 }
 
 main { 
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
     background: white;
     border-radius: 8px;
@@ -32,6 +32,8 @@ input {
     border-radius: 4px; 
 }
 
+
+
 button { 
     padding: 10px 15px;
     background-color: #007Bff;
@@ -41,10 +43,6 @@ button {
     cursor: pointer;
 }
 
-#member-buttons button{
-    margin-right: 5px;
-    margin-top: 10px;
-}
 
 #display div{
     margin-top: 10px;
@@ -58,3 +56,48 @@ button {
     background-color: rgba(18, 97, 89, 0.467);
     color: black;
 }
+
+.split-layout {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inputs-section { 
+    flex: 1;
+    padding-right: 20px;
+}
+
+.items-section {
+    flex: 1;
+}
+
+#member-buttons {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#member-buttons button{
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+#items-dashboard {
+    text-align: center;
+    margin-top: 20px;
+    padding:10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+
+}
+
+#items-dashboard div {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+#items-dashboard span {
+    display: block;
+    font-weight: bold;
+}
+
