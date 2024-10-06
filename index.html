@@ -13,37 +13,45 @@
         <h1>Bill Splitter</h1>
     </header>
     <main>
-      <div class="split-layout">
-        <div class="inputs-section">
-          <!-- Tax and Tip Inputs -->
-          <label>Enter Tax Rate</label>
-          <input placeholder="Tax" id="tax-rate"></input>
-  
-          <label>Enter Tip Rate</label>
-          <input placeholder="Tip" id="tip-rate"></input>
+      <div class="notebook">
+        <div class="notebook-rings"></div>
+        <div class="content">
+          <div class="split-layout">
+            <div class="inputs-section">
+              <!-- Tax and Tip Inputs -->
+              <label>Enter Tax Rate</label>
+              <input placeholder="Tax" id="tax-rate"></input>
+      
+              <label>Enter Tip Rate</label>
+              <input placeholder="Tip" id="tip-rate"></input>
+    
+              <!-- Add Members -->
+              <label>Add Members from your group:</label>
+              <input id="member-name"></input>
+              <button id="member-btn">Add Member</button>
+              
+              <!-- Member Buttons -->
+              <div id="member-buttons"></div>
+    
+              <!-- Add Item Inputs -->
+              <label>Item Name</label>
+              <input placeholder="name" id="item-name"></input>
+      
+              <label>Item Price</label>
+              <input placeholder="price" id="item-price"></input>
+              <button id="add-item">Add Item</button>
+            </div>
+              <!-- Display Section -->
+            <div class="items-section">
+              <div id="display"></div>
+              <div id="items-dashboard">Items Dashboard</div>
+            </div>
+          </div>
 
-          <!-- Add Members -->
-          <label>Add Members from your group:</label>
-          <input id="member-name"></input>
-          <button id="member-btn">Add Member</button>
-          
-          <!-- Member Buttons -->
-          <div id="member-buttons"></div>
-
-          <!-- Add Item Inputs -->
-          <label>Item Name</label>
-          <input placeholder="name" id="item-name"></input>
-  
-          <label>Item Price</label>
-          <input placeholder="price" id="item-price"></input>
-          <button id="add-item">Add Item</button>
         </div>
-          <!-- Display Section -->
-        <div class="items-section">
-          <div id="display"></div>
-          <div id="items-dashboard">Items Dashboard</div>
-        </div>
+    
       </div>
+
 
     </main>
     <script src="./script.js"></script>
