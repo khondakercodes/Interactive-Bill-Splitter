@@ -1,6 +1,6 @@
 const memberBtn = document.getElementById("member-btn")
 const memberName = document.getElementById("member-name")
-const memberBtns = document.getElementById("member-buttons")
+const memberBtnDisplay = document.getElementById("member-buttons-display")
 const itemName = document.getElementById("item-name")
 const itemPrice = document.getElementById("item-price")
 const totalsDisplay =  document.getElementById("display")
@@ -11,8 +11,8 @@ const itemsDash = document.getElementById("items-dashboard")
 
 
 class Member {
-    constructor() {
-        this.name = ''
+    constructor(name) {
+        this.name = name
         this.taxPaid = 0
         this.tipPaid = 0
         this.subtotal = 0
@@ -21,12 +21,18 @@ class Member {
         this.tipRate = parseFloat(tipInput.value)/100
         this.split = false
     }
+
+    calculateTotals() {
+        this.taxPaid = this.subtotal * this.taxRate
+        this.tipPaid = this.subtotal * this.tipRate
+        this.total = this.subtotal + this.taxPaid + this.tipPaid
+    }
 }
 
 class Item { 
-    constructor() {
-        this.name = ''
-        this.price = 0
+    constructor(name, price) {
+        this.name = name
+        this.price = price
     }
 }
 
@@ -40,19 +46,15 @@ const renderButtons = (array) => {
         }
     ).join("")
 
-    memberBtns.innerHTML = buttonsHTML
+    memberBtnDisplay.innerHTML = buttonsHTML
 }
 
 const addMember = () => {
-    
-    const newMember = new Member()
-    newMember.name = memberName.value 
+    const newMember = new Member(memberName.value)
     memberList.push(newMember)
-    
 
     renderButtons(memberList)
     renderDisplay(memberList)
-
 }
 
 const renderDisplay = (array) => { 
@@ -63,10 +65,8 @@ const renderDisplay = (array) => {
             `
         }
     ).join("")
-
     totalsDisplay.innerHTML = displayHTML
 }
-
 
 const memberClick = (name, buttonElement) => {
     memberList.forEach( 
@@ -75,11 +75,8 @@ const memberClick = (name, buttonElement) => {
                 member.split = !member.split
             }
         }
-        
     )
-
     buttonElement.classList.toggle("highlight")
-
 }
 
 const addItem = () => {
@@ -96,31 +93,41 @@ const addItem = () => {
             return
         }      
 
-    const newItem = new Item() 
-
-    newItem.name = itemName.value
-    newItem.price = parseFloat(itemPrice.value)
-
+    const newItem = new Item(itemName.value,parseFloat(itemPrice.value) )
     itemList.push(newItem)
 
-    const currentItemPrice = parseFloat(itemPrice.value)
-    
-    const splitAmount = currentItemPrice / flagCounter
+    calculateItemSplit(flagCounter)
+    updateMemberTotals()
+    updateUI()
+    }
+
+const calculateItemSplit = (flagNum) => {
+    const newItem = itemList[itemList.length - 1]
+    const splitAmount = newItem.price / flagNum
 
     memberList.forEach( 
         (member) => {
             if (member.split) { 
                 member.subtotal += splitAmount
-
                 member.split = false
             }
         })
+   
+}
 
-
-    calculateTotals()
+const updateUI = () => {
+    buttonUnhighlight()   
     renderDisplay(memberList)
-    
+    renderItemsDash(itemList)
+}
 
+const updateMemberTotals = () => {
+    memberList.forEach((member) => {
+        member.calculateTotals()
+    })
+}
+
+const buttonUnhighlight = () => { 
     const memberBtns = document.querySelectorAll(".member-btns")
     memberBtns.forEach(
         (btn) => {
@@ -130,24 +137,7 @@ const addItem = () => {
             
         } 
     )
-
-    renderItemsDash(itemList)
 }
-
-const calculateTotals = () => {
-    memberList.forEach(
-        (member) => { 
-            member.taxPaid = member.subtotal * member.taxRate
-            member.tipPaid = member.subtotal * member.tipRate
-
-            const taxTotal = member.subtotal + member.taxPaid
-
-            member.total = member.tipPaid + taxTotal
-
-        }
-    )
-}
-
 
 const renderItemsDash = (array) => {
     const itemsHTML = array.map(
@@ -158,9 +148,6 @@ const renderItemsDash = (array) => {
 
     itemsDash.innerHTML = itemsHTML
 }
-
-
-
 
 
 memberBtn.addEventListener("click",addMember)
